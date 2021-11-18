@@ -6,17 +6,7 @@ import "./App.css";
 
 function App() {
   // This represents the 9 squares of the tic-tac-toe board. 
-  const [boardValues, setBoardValues] = React.useState([
-    "X",
-    "O",
-    "X",
-    "-",
-    "O",
-    "O",
-    "-",
-    "-",
-    "-",
-  ]);
+  const [boardValues, setBoardValues] = React.useState(["X", "O", "X", "-", "O", "O", "-", "-", "-"]);
   // This is a boolean to help us keep track of who's turn it is. 
   const [xIsNext, setXIsNext] = React.useState(true);
 
