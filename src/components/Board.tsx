@@ -7,19 +7,19 @@ export default function Board(props: BoardProps) {
   return (
     <div>
       <div className="board-row">
-        <Square value={0} />
-        <Square value={1} />
-        <Square value={2} />
+        <Square value={props.squares[0]} />
+        <Square value={props.squares[1]} />
+        <Square value={props.squares[2]} />
       </div>
       <div className="board-row">
-        <Square value={3} />
-        <Square value={4} />
-        <Square value={5} />
+        <Square value={props.squares[3]} />
+        <Square value={props.squares[4]} />
+        <Square value={props.squares[5]} />
       </div>
       <div className="board-row">
-        <Square value={6} />
-        <Square value={7} />
-        <Square value={8} />
+        <Square value={props.squares[6]} />
+        <Square value={props.squares[7]} />
+        <Square value={props.squares[8]} />
       </div>
     </div>
   );
