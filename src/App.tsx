@@ -18,9 +18,9 @@ function App() {
       <div className="App">
         <Board squares={boardValues} />
         <div>
-          xIsNext current value:  {xIsNext ? 'true' : 'false' }
+          Next Player: O  {xIsNext ? 'true' : 'false' }
           <div>
-            <button onClick={() => setXIsNext(false)}>
+            <button onClick={() => setXIsNext(!xIsNext)}>
               Click me to change player
             </button>
           </div>
@@ -29,5 +29,4 @@ function App() {
     </>
   );
 }
-
 export default App;
