@@ -15,19 +15,22 @@ function App() {
 
   // This function is called whenever a square is clicked.
   // When clicked, the function is passed in a numerical value 1-9 
-  // to indicated which square was clicked.
+  // to indicate which square was clicked.
   // When a square is clicked, the board should 
   // 1) update to show that that player marked the square 
   const onSquareClickFunction = (i: number) => {
     console.log(i)
-    //TODO:
+    let cloneBoardValues = [...boardValues];
+    cloneBoardValues[i] = xIsNext ? 'X' : 'O';
+    setBoardValues(cloneBoardValues);
+    setXIsNext(!xIsNext);
   }
   return (
     <>
       <div className="App">
         <Board squares={boardValues} onSquareClick={onSquareClickFunction} />
         <div>
-          Next Player: O  {xIsNext ? 'true' : 'false' }
+          Next Player: {xIsNext ? 'O' : 'X' }
           <div>
             <button onClick={() => setXIsNext(!xIsNext)}>
               Click me to change player
