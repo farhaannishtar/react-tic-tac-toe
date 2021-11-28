@@ -1,5 +1,3 @@
-# Example of Game
-
 <img width="623" alt="GitHub Screenshot" src="https://user-images.githubusercontent.com/89179469/143769774-4618f7a8-c956-468b-8c11-7cb1f4d0cf0a.png">
 
 
