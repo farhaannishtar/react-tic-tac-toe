@@ -1,3 +1,10 @@
+# Example of Game
+
+<img width="623" alt="GitHub Screenshot" src="https://user-images.githubusercontent.com/89179469/143769774-4618f7a8-c956-468b-8c11-7cb1f4d0cf0a.png">
+
+
+
+
 # Getting Started with Tic Tac Toe
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -28,4 +35,6 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+
 
