@@ -28,14 +28,10 @@ function App() {
     setBoardValues(cloneBoardValues);
     setXIsNext(!xIsNext);
 
-    // console.log('test');
     console.log(calculateWinner(cloneBoardValues) + ' is the winner');
 
-    const gameOver = () => {
-      const gameOver = (element: string) => element != '-';
-      return cloneBoardValues.every(gameOver);
-    }
-    if (gameOver() === true) {
+    const gameOver = cloneBoardValues.every((element: string) => element != '-');
+    if (gameOver) {
       let winner = calculateWinner(cloneBoardValues)
       alert(`Game is over. ${winner} is the winner.`)
     }
@@ -57,7 +53,7 @@ function App() {
             </button>
             <div>
               <button onClick={() => resetGame()}>
-              Play Again
+                Play Again
               </button>
             </div>
           </div>
