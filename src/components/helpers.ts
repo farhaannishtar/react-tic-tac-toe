@@ -41,5 +41,8 @@ export function calculateWinner(squares: string[]) : string | null {
   if (squares[2] === squares[4] && squares[4] === squares[6]) {
     return squares[2];
   }
-  return null
+  if (squares.every((element: string) => element !== '-')) {
+    return null;
+  }
+  return '';
 }
