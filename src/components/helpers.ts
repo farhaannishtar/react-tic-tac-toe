@@ -42,7 +42,7 @@ export function calculateWinner(squares: string[]) : string | null {
     return squares[2];
   }
   if (squares.every((element: string) => element !== '-')) {
-    return null;
+    return 'Tie';
   }
   return '';
 }
