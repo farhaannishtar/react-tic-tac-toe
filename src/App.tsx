@@ -21,19 +21,30 @@ function App() {
   const onSquareClickFunction = (i: number) => {
     console.log(i)
     let cloneBoardValues = [...boardValues];
-    if (cloneBoardValues[i] != '-') {
+    if (cloneBoardValues[i] !== '-') {
       return;
     }
     cloneBoardValues[i] = xIsNext ? 'O' : 'X';
     setBoardValues(cloneBoardValues);
     setXIsNext(!xIsNext);
 
-    console.log(calculateWinner(cloneBoardValues) + ' is the winner');
+    let winner = calculateWinner(cloneBoardValues);
+    console.log(winner);
+    const gameOver = cloneBoardValues.every((element: string) => element !== '-');
+    if (winner !== '-') {
+      displayWinner(winner);
+    } else if (gameOver && winner === null) {
+      displayWinner(winner);
+    }
+  }
 
-    const gameOver = cloneBoardValues.every((element: string) => element != '-');
-    if (gameOver) {
-      let winner = calculateWinner(cloneBoardValues)
-      alert(`Game is over. ${winner} is the winner.`)
+  const displayWinner = (winner: string | null) => {
+    if (winner === null) {
+      return `It's a Tie`;
+    } else if (winner === '-' || winner === '') {
+      return '';
+    } else {  
+      return `${winner} is the Winner`;
     }
   }
 
@@ -51,10 +62,11 @@ function App() {
             <button onClick={() => setXIsNext(!xIsNext)}>
               Click me to change player
             </button>
-            <div>
-              <button onClick={() => resetGame()}>
+            <button onClick={() => resetGame()}>
                 Play Again
               </button>
+            <div>
+              {displayWinner(winner)}
             </div>
           </div>
         </div>
