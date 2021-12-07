@@ -3,6 +3,7 @@ import Board from "./components/Board";
 import { calculateWinner } from "./components/helpers";
 
 import "./App.css";
+import { count } from "console";
 
 function App() {
   // This represents the 9 squares of the tic-tac-toe board.
@@ -52,6 +53,36 @@ function App() {
     setBoardValues(["-", "-", "-", "-", "-", "-", "-", "-", "-"]);
   }
 
+  const computerTurn = () => {
+    // Creating copy of the board
+    let cloneBoardValues = [...boardValues];    
+
+    // Creating a Map to place the empty squares for the computer to choose from
+    let computerSpace = new Map<number, number>();
+    let index = 0;
+
+    // Filling in the Computer's workspace
+    // The keys are the indexes of the Map 
+    // The values are the positions of the empty squares on the board  (0-8)
+    for (let i = 0; i < cloneBoardValues.length; i++) {
+      if (cloneBoardValues[i] === '-') {
+        computerSpace.set(index, i);
+        index++;
+      }
+    }
+    // Getting the keys of the Map
+    let keys = Array.from(computerSpace.keys());
+
+    // Selecting a random key
+    let randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    // Getting the position of the empty square from the random key
+    let computerChoice = Number(computerSpace.get(randomKey));
+
+    // Computer sending its move to that square 
+    onSquareClickFunction(computerChoice);
+  }
+
   return (
     <>
       <div className="App">
@@ -59,8 +90,8 @@ function App() {
         <div>
           Next Player: {xIsNext ? 'O' : 'X' }
           <div>
-            <button onClick={() => setXIsNext(!xIsNext)}>
-              Click me to change player
+            <button onClick={() => computerTurn()}>
+              Computer's Turn
             </button>
             <button onClick={() => resetGame()}>
                 Play Again
