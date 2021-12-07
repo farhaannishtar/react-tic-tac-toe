@@ -27,19 +27,10 @@ function App() {
     cloneBoardValues[i] = xIsNext ? 'O' : 'X';
     setBoardValues(cloneBoardValues);
     setXIsNext(!xIsNext);
-
-    let winner = calculateWinner(cloneBoardValues);
-    console.log(winner);
-    const gameOver = cloneBoardValues.every((element: string) => element !== '-');
-    if (winner !== '-') {
-      displayWinner(winner);
-    } else if (gameOver && winner === null) {
-      displayWinner(winner);
-    }
   }
 
   const displayWinner = (winner: string | null) => {
-    if (winner === null) {
+    if (winner === 'Tie') {
       return `It's a Tie`;
     } else if (winner === '-' || winner === '') {
       return '';
