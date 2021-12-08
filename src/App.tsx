@@ -3,7 +3,6 @@ import Board from "./components/Board";
 import { calculateWinner } from "./components/helpers";
 
 import "./App.css";
-import { count } from "console";
 
 function App() {
   // This represents the 9 squares of the tic-tac-toe board.
@@ -54,9 +53,6 @@ function App() {
   }
 
   const computerTurn = () => {
-    // Creating copy of the board
-    let cloneBoardValues = [...boardValues];    
-
     // Creating a Map to place the empty squares for the computer to choose from
     let computerSpace = new Map<number, number>();
     let index = 0;
@@ -64,8 +60,8 @@ function App() {
     // Filling in the Computer's workspace
     // The keys are the indexes of the Map 
     // The values are the positions of the empty squares on the board  (0-8)
-    for (let i = 0; i < cloneBoardValues.length; i++) {
-      if (cloneBoardValues[i] === '-') {
+    for (let i = 0; i < boardValues.length; i++) {
+      if (boardValues[i] === '-') {
         computerSpace.set(index, i);
         index++;
       }
