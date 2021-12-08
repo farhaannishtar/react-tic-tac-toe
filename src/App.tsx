@@ -9,6 +9,9 @@ function App() {
   const [boardValues, setBoardValues] = React.useState(["-", "-", "-", "-", "-", "-", "-", "-", "-"]);
   // This is a boolean to help us keep track of who's turn it is.
   const [xIsNext, setXIsNext] = React.useState(true);
+  // Keeping track of the Winners
+  const [xWins, setXWins] = React.useState(0);
+  const [oWins, setOWins] = React.useState(0);
 
   // The winner.
   const winner = calculateWinner(boardValues);
@@ -19,7 +22,7 @@ function App() {
   // When a square is clicked, the board should 
   // 1) update to show that that player marked the square 
   const onSquareClickFunction = (i: number) => {
-    console.log(i)
+    console.log(i);
     let cloneBoardValues = [...boardValues];
     if (cloneBoardValues[i] !== '-') {
       return;
@@ -32,14 +35,19 @@ function App() {
   const displayWinner = (winner: string | null) => {
     if (winner === 'Tie') {
       return `It's a Tie`;
-    } else if (winner === '-' || winner === '') {
-      return '';
-    } else {  
-      return `${winner} is the Winner`;
-    }
+    } else if (winner === 'X' || winner === 'O') { 
+        return `${winner} is the Winner`;
+    } else {
+        return '';
+    }  
   }
 
   const resetGame = () => {
+    if (winner === 'X') {
+      setXWins(xWins + 1);
+    } else if (winner === 'O') {
+      setOWins(oWins + 1);
+    }
     setBoardValues(["-", "-", "-", "-", "-", "-", "-", "-", "-"]);
   }
 
@@ -73,6 +81,9 @@ function App() {
   return (
     <>
       <div className="App">
+        <div>
+          O wins: {oWins} | X wins: {xWins}
+        </div>
         <Board squares={boardValues} onSquareClick={onSquareClickFunction}/>
         <div>
           Next Player: {xIsNext ? 'O' : 'X' }
