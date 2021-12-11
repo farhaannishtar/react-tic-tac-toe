@@ -43,11 +43,6 @@ function App() {
   }
 
   const resetGame = () => {
-    if (winner === 'X') {
-      setXWins(xWins + 1);
-    } else if (winner === 'O') {
-      setOWins(oWins + 1);
-    }
     setBoardValues(["-", "-", "-", "-", "-", "-", "-", "-", "-"]);
   }
 
@@ -77,6 +72,16 @@ function App() {
     // Computer sending its move to that square 
     onSquareClickFunction(computerChoice);
   }
+
+  React.useEffect(() => {
+    console.log("The winner changed!")
+    if (winner === 'X') {
+      setXWins(xWins + 1);
+    } else if (winner === 'O') {
+      setOWins(oWins + 1);
+    }
+    resetGame();
+  }, [winner]); // Only re-run the effect if winner changes
 
   return (
     <>
