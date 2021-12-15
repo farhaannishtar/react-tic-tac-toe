@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Board from "./components/Board";
 import { calculateWinner } from "./components/helpers";
-
 import "./App.css";
 
 function App() {
@@ -13,40 +12,49 @@ function App() {
   const [xWins, setXWins] = React.useState(0);
   const [oWins, setOWins] = React.useState(0);
 
-  // The winner.
+  // Toggle button for for computer mode
+  let computerMode = document.getElementById('computerMode') as HTMLInputElement;
+  
+  // Getting the winner
   const winner = calculateWinner(boardValues);
 
   // This function is called whenever a square is clicked.
   // When clicked, the function is passed in a numerical value 1-9 
   // to indicate which square was clicked.
   // When a square is clicked, the board should 
-  // 1) update to show that that player marked the square 
-  const onSquareClickFunction = (i: number) => {
-    console.log(i);
+  // update to show that that player marked the square 
+  const onSquareClickFunction = (move: number, message?: string) => {
+
+    // Add the move that was passed into this function to a clone of the board
     let cloneBoardValues = [...boardValues];
-    if (cloneBoardValues[i] !== '-') {
+    if (cloneBoardValues[move] !== '-') {
       return;
     }
-    cloneBoardValues[i] = xIsNext ? 'O' : 'X';
-    setBoardValues(cloneBoardValues);
-    setXIsNext(!xIsNext);
-  }
+    cloneBoardValues[move] = xIsNext ? 'X' : 'O';
 
-  const displayWinner = (winner: string | null) => {
-    if (winner === 'Tie') {
-      return `It's a Tie`;
-    } else if (winner === 'X' || winner === 'O') { 
-        return `${winner} is the Winner`;
+
+    // When we're against the computer, we get both the user's move and computer's move 
+    // before updating the state of the board
+    
+    // If this is the computer's first move after being toggled on, 
+    // we don't need to generate another random move. 
+    if (computerMode.checked === true && message !== 'Computer first move') {
+      let computerMove: number = generateComputerMove(cloneBoardValues);
+      cloneBoardValues[computerMove] = xIsNext ? 'O' : 'X';
+    }
+
+    // update the state of the board using the clone
+    setBoardValues(cloneBoardValues); 
+    // If this isn't the computer's first move then two moves were recorded
+    // Update the state so the same player is next
+    if (computerMode.checked === true && message !== 'Computer first move') {
+      setXIsNext(xIsNext);
     } else {
-        return '';
+      setXIsNext(!xIsNext);
     }  
   }
 
-  const resetGame = () => {
-    setBoardValues(["-", "-", "-", "-", "-", "-", "-", "-", "-"]);
-  }
-
-  const computerTurn = () => {
+  const generateComputerMove = (cloneBoardValues: string[]) : number => {
     // Creating a Map to place the empty squares for the computer to choose from
     let computerSpace = new Map<number, number>();
     let index = 0;
@@ -54,8 +62,8 @@ function App() {
     // Filling in the Computer's workspace
     // The keys are the indexes of the Map 
     // The values are the positions of the empty squares on the board  (0-8)
-    for (let i = 0; i < boardValues.length; i++) {
-      if (boardValues[i] === '-') {
+    for (let i = 0; i < cloneBoardValues.length; i++) {
+      if (cloneBoardValues[i] === '-') {
         computerSpace.set(index, i);
         index++;
       }
@@ -70,11 +78,11 @@ function App() {
     let computerChoice = Number(computerSpace.get(randomKey));
 
     // Computer sending its move to that square 
-    onSquareClickFunction(computerChoice);
+    return computerChoice;
   }
 
   React.useEffect(() => {
-    console.log("The winner changed!")
+    console.log("End of game");
     if (winner === 'X') {
       setXWins(xWins + 1);
     } else if (winner === 'O') {
@@ -82,6 +90,26 @@ function App() {
     }
     resetGame();
   }, [winner]); // Only re-run the effect if winner changes
+
+  const resetGame = () => {
+    setBoardValues(["-", "-", "-", "-", "-", "-", "-", "-", "-"]);
+  }
+
+  // Executes only once everytime we switch on or off 'Play with Computer' toggle button
+  const againstComputer = () => {
+    // When we're done playing with the computer, we want to exit 
+    // and not generate another move. 
+    if (computerMode.checked === false) {
+      console.log('Toggle mode off');
+      return;
+    }
+
+    // When we toggle 'Play with Computer' button on, we first generate the computer's move 
+    let computerMove: number = generateComputerMove(boardValues);
+    // We pass in that move and 'Computer first move' string to submit 
+    // the computer's first move after being toggled on
+    onSquareClickFunction(computerMove, 'Computer first move');
+  }
 
   return (
     <>
@@ -91,17 +119,17 @@ function App() {
         </div>
         <Board squares={boardValues} onSquareClick={onSquareClickFunction}/>
         <div>
-          Next Player: {xIsNext ? 'O' : 'X' }
+          Next Player: {xIsNext ? 'X' : 'O' }
           <div>
-            <button onClick={() => computerTurn()}>
-              Computer's Turn
-            </button>
             <button onClick={() => resetGame()}>
                 Play Again
-              </button>
-            <div>
-              {displayWinner(winner)}
-            </div>
+            </button>
+            <br></br>
+            Play with Computer 
+            <label className="switch">
+              <input id="computerMode" type="checkbox" onClick={() => againstComputer()}></input>
+              <span className="slider round"></span>
+            </label>
           </div>
         </div>
       </div>
